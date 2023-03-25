@@ -1,0 +1,40 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+nav{
+    background-color: beige;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid gray;
+    padding: 10px 30px;
+}
+nav>div:last-child{
+    width: 20%;
+    display: flex;
+    justify-content: space-around;
+}
+.container{
+    display: flex;
+    height: 95vh;
+    width: 100%;
+    justify-content: space-evenly;
+}
+#menu{
+    width: 10%;
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 80%;
+    margin-top: 5%;
+}
+#menu>ul>li{
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+#menu>ul>li>input{
+    border: none;
+}
