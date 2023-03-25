@@ -2,17 +2,39 @@ let user = JSON.parse(localStorage.getItem("user")) || [];
 document.querySelector("#signinPage").addEventListener("click", function () {
     getUser();
 })
-if (user.length != 0) {
-    document.querySelector("#signinPage").innerHTML = `Hi, ${user.firstName}`;
+
+function logoutFun(value) {
+    if (value == "logout") {
+        localStorage.removeItem("user");
+        window.location.reload();
+    }
 }
 function getUser() {
     if (user.length == 0) {
         window.location.href = "signup.html";
-    } else {
-        window.location.href = "index.html";
     }
 }
 
+function showUser(user) {
+    if (user.length != 0) {
+        let handler = document.querySelector("#signinPage");
+        handler.innerHTML = "";
+        let select = document.createElement("select");
+        select.setAttribute("id","select");
+        let option1 = document.createElement("option");
+        let option2 = document.createElement("option");
+        option1.innerHTML = `Hi, ${user.firstName}`
+        option2.innerHTML = `Logout`;
+        option1.value = "username";
+        option2.value = "logout";
+        select.addEventListener("change", function () {
+            logoutFun(select.value);
+        })
+        select.append(option1, option2);
+        handler.append(select);
+    }
+}
+showUser(user);
 
 function getSignupData() {
     event.preventDefault();
@@ -145,7 +167,10 @@ function showTasks(data) {
         let date = document.createElement("p");
         let option1 = document.createElement("option");
         let option2 = document.createElement("option");
-
+        let deleteItem=document.createElement("p");
+        deleteItem.innerHTML="Delete";
+        let cdiv=document.createElement("div");
+        cdiv.setAttribute("class","cdiv");
         if (element.taskStatus == "PENDING") {
             option1.innerHTML = "Pending";
             option2.innerHTML = "Completed";
@@ -166,11 +191,33 @@ function showTasks(data) {
         let dateTime = element.dateTime;
         let dateObj = new Date(dateTime);
         date.innerHTML = `Date : ${dateObj.toDateString()}`;
-
-        div.append(title, desc, date, status);
+        deleteItem.addEventListener("click",function(){
+            deleteTask(element.taskId);
+        })
+        status.style.backgroundColor="#FFFF33";
+        deleteItem.style.cursor="pointer";
+        deleteItem.style.color="red";
+        cdiv.append(status,deleteItem);
+        div.append(title, desc, date, cdiv);
 
         container.append(div);
     });
+}
+function deleteTask(taskId){
+    fetch(`https://task-planner-zvg7.onrender.com:443/api/v1/task/delete?taskId=${taskId}`,{
+        method:"DELETE",
+    }).then((res)=>{
+        return res.json();
+    }).then((res)=>{
+        if(res.message==null){
+            alert("Task deleted..");
+            window.location.reload();
+        }else{
+            alert(res.message);
+        }
+    }).catch((err)=>{
+        console.log(err);
+    })
 }
 function updateStatus(value, id) {
     let updateValue = {
@@ -197,7 +244,7 @@ function updateStatus(value, id) {
         console.log(err);
     })
 }
-document.querySelector("#addTask").addEventListener("click",function(){
+document.querySelector("#addTask").addEventListener("click", function () {
     createTask(user);
 })
 function createTask(user) {
@@ -206,13 +253,13 @@ function createTask(user) {
     } else {
         let title = prompt("Title", "Test");
         let desc = prompt("Description", "This is a demo");
-        if(title.length<3 || desc.length <3){
+        if (title.length < 3 || desc.length < 3) {
             alert("Please enter valid data..");
-        }else{
+        } else {
             let taskData = {
                 title: title,
                 description: desc,
-                userId:user.userId
+                userId: user.userId
             }
             let data = JSON.stringify(taskData);
             addTask(data);

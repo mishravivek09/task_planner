@@ -128,3 +128,15 @@ a{
 #addTask{
     cursor: pointer;
 }
+#select{
+    font-size: 20px;
+    border: none;
+    background-color: beige;
+    cursor: pointer;
+    outline: none;
+}
+.cdiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
