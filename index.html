@@ -10,23 +10,23 @@
 <body>
     <nav>
        <div>
-            <h1>Task Planner</h1>
+            <h1><a href="index.html">Task Planner</a></h1>
        </div>
        <div>
-            <h1>Signin</h1>
-            <h1>Add Task</h1>
+            <h1 id="signinPage">Signin</h1>
+            <h1 id="addTask">Add Task</h1>
        </div>
     </nav>
     <div class="container">
         <div id="container"></div>
         <div id="menu">
             <ul>
-                <li>All Task</li>
-                <li><input type="week"></li>
-                <li>Active Task</li>
-                <li>Closed Task</li>
+                <li id="allTask">All Task</li>
+                <li id="pendingTask">Active Task</li>
+                <li id="completedTask">Closed Task</li>
             </ul>
         </div>
     </div>
 </body>
+<script src="./index.js"></script>
 </html>
